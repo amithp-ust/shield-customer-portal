@@ -1,0 +1,52 @@
+openapi: 3.1.0
+info:
+  title: Shield Customer Portal
+  version: 0.1.0
+  description: Synthetic callable fixture; no HTTP adapter is deployed.
+paths:
+  /dashboard/claims/{claim_id}:
+    get:
+      operationId: dashboard
+      parameters:
+        - name: claim_id
+          in: path
+          required: true
+          schema: {type: string, minLength: 1}
+      responses:
+        "200":
+          description: Claim status, policy summary, and premium schedule.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [claim, policy, premium_schedule]
+                properties:
+                  claim:
+                    type: object
+                    required: [claim_id, policy_id, status, paid_cents]
+                    properties:
+                      claim_id: {type: string, minLength: 1}
+                      policy_id: {type: string, minLength: 1}
+                      status:
+                        type: string
+                        enum: [manual_review, denied, partially_paid, paid]
+                      paid_cents: {type: integer, minimum: 0}
+                  policy:
+                    type: object
+                    required: [policy_id, customer_id, coverage_cents, deductible_cents, premium_cents, status]
+                    properties:
+                      policy_id: {type: string, minLength: 1}
+                      customer_id: {type: string, minLength: 1}
+                      coverage_cents: {type: integer, minimum: 1}
+                      deductible_cents: {type: integer, minimum: 0}
+                      premium_cents: {type: integer, minimum: 1}
+                      status: {type: string, enum: [active, cancelled]}
+                  premium_schedule:
+                    type: object
+                    required: [policy_id, annual_premium_cents, currency]
+                    properties:
+                      policy_id: {type: string, minLength: 1}
+                      annual_premium_cents: {type: integer, minimum: 1}
+                      currency: {const: USD}
+        "404":
+          description: Claim or policy not found.
