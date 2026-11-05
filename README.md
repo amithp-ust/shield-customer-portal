@@ -12,11 +12,19 @@ Supply a local SQLite connection to `CustomerPortal`; initialization creates
 the portal's schema. `contracts/portal-api.yaml` describes the intended API.
 There is no browser UI or HTTP server in this readable fixture.
 
-Shared context: `amithp-ust/shield-context` (`AGENTS.md`, glossary, scope,
-standards, component map). `specs/` is empty pending spec pull requests.
-For a future `001-claim-payment-reason` intent, this repository receives only
-portal requirements linked to the full primary spec in `shield-claims-service`.
 The current dashboard does not display payment-reason explanations.
 
-Python 3.12+, standard library only. Run `python -m unittest discover -s tests`.
+## Specification consumer
+
+Canonical specs, authoring, gates, and requirement metrics live only in
+[`amithp-ust/Intent-to-spec`](https://github.com/amithp-ust/Intent-to-spec).
+Shared glossary, map, standards, and policy remain in
+[`amithp-ust/shield-context`](https://github.com/amithp-ust/shield-context).
+This repo owns `CM-PORTAL` implementation, not spec authoring. See
+[AGENTS.md](AGENTS.md) for immutable approved spec references, issue/PR traceability,
+human review, and fixture-contract checks. Do not install authoring here or copy
+specs; empty `specs/.gitkeep` is a legacy placeholder.
+
+Python 3.11+, standard library only. Run `python -m unittest discover -s tests`
+from this repository root; the unit-test CI runs the same command on Python 3.11.
 Use synthetic data only; this fixture is not a production customer portal.
